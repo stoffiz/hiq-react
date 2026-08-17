@@ -28,6 +28,23 @@ export type FormItem = {
   values: Record<string, string>;
 };
 
+// Note:
+// Maybe improve type narrowing so instead if Record<string, string, one for each type of block.
+// Eg.
+// type RadioButtonsFieldValues = {
+//   question?: string;
+//   informationText?: string;
+//   alternatives?: Record<string, string>;
+// };
+
+// type InputTextFieldValues = {
+//   question?: string; placeholder?: string
+// };
+
+// FormattedField =
+// | { type: "radio-buttons"; id: string; values: RadioButtonsFieldValues }
+// | { type: "input-text"; id: string; values: InputTextFieldValues }
+
 export type FormattedField = {
   type: InputType;
   id: string;

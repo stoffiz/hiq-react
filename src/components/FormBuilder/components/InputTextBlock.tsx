@@ -17,7 +17,7 @@ const InputTextBlock = ({
           <InputField
             label="Label"
             placeholder="Label"
-            {...register(`fields.${index}.values.question`)}
+            {...register(`fields.${index}.values.label`)}
           />
           <InputField
             label="Placeholder-text (valfri)"

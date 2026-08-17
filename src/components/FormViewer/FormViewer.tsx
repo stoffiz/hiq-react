@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "../Button";
 import { InputField } from "../InputField";
@@ -18,7 +17,38 @@ const FormViewer = ({ fields }: FormViewerProps) => {
   const { register, handleSubmit } = useForm<FormViewerValues>();
 
   const printFormValues = (data: FormViewerValues) => {
-    console.log(data);
+    const answersWithLabels = Object.entries(data.answers).map(
+      ([fieldId, answer]) => {
+        const field = fields.find((f) => f.id === fieldId);
+        const label = field?.values.question ?? field?.values.label;
+
+        switch (field?.type) {
+          case "radio-buttons": {
+            const alternatives = (field.values.alternatives ??
+              {}) as unknown as Record<string, string>;
+            return {
+              id: fieldId,
+              label,
+              answer: alternatives[answer as string],
+            };
+          }
+          case "checkboxes": {
+            const checkboxes = (field.values.checkboxes ??
+              {}) as unknown as Record<string, string>;
+            const selected = Object.entries(
+              (answer ?? {}) as Record<string, boolean>,
+            )
+              .filter(([, checked]) => checked)
+              .map(([key]) => ({ id: key, label: checkboxes[key] }));
+            return { id: fieldId, label, answer: selected };
+          }
+          default:
+            return { id: fieldId, label, answer };
+        }
+      },
+    );
+
+    console.log(answersWithLabels);
   };
 
   return (
@@ -31,6 +61,9 @@ const FormViewer = ({ fields }: FormViewerProps) => {
 
             switch (field.type) {
               case "text":
+                // No need to render empty valus.
+                // TODO: Make some fields required before saving form.
+                if (!values.text) return null;
                 return (
                   <li key={field.id}>
                     {/* Casting as we know these are strings */}
@@ -50,16 +83,20 @@ const FormViewer = ({ fields }: FormViewerProps) => {
               case "radio-buttons": {
                 const alternatives = (values.alternatives ??
                   {}) as unknown as Record<string, string>;
+                // No need to render empty valus.
+                if (Object.keys(alternatives).length === 0) return null;
                 return (
                   <li key={field.id}>
-                    <div className={styles.label}>
-                      {values.question as string}
+                    <div className={styles.container}>
+                      <p className={styles.question}>
+                        {values.question as string}
+                      </p>
+                      {values.informationText && (
+                        <span className={styles.info}>
+                          {values.informationText as string}
+                        </span>
+                      )}
                     </div>
-                    {values.informationText && (
-                      <div className={styles.info}>
-                        {values.informationText as string}
-                      </div>
-                    )}
                     {Object.entries(alternatives).map(([key, label]) => (
                       <label key={key} className={styles.option}>
                         <input
@@ -76,16 +113,20 @@ const FormViewer = ({ fields }: FormViewerProps) => {
               case "checkboxes": {
                 const checkboxes = (values.checkboxes ??
                   {}) as unknown as Record<string, string>;
+                // No need to render empty valus.
+                if (Object.keys(checkboxes).length === 0) return null;
                 return (
                   <li key={field.id}>
-                    <div className={styles.label}>
-                      {values.question as string}
+                    <div className={styles.container}>
+                      <p className={styles.question}>
+                        {values.question as string}
+                      </p>
+                      {values.informationText && (
+                        <span className={styles.info}>
+                          {values.informationText as string}
+                        </span>
+                      )}
                     </div>
-                    {values.informationText && (
-                      <div className={styles.info}>
-                        {values.informationText as string}
-                      </div>
-                    )}
                     {Object.entries(checkboxes).map(([key, label]) => (
                       <label key={key} className={styles.option}>
                         <input

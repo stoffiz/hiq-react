@@ -1,0 +1,50 @@
+.wrapper {
+  background-color: var(--white);
+  box-shadow: var(--shadow-1);
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.header::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  width: calc(100% - 1rem);
+  height: 1px;
+  background-color: var(--border);
+}
+
+.header svg {
+  width: 1rem;
+}
+
+.content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.line {
+  height: 0.125rem;
+  width: 1rem;
+  background-color: currentColor;
+  border-radius: 0.125rem;
+}
+
+.buttonWrapper {
+  display: flex;
+  gap: 1rem;
+}

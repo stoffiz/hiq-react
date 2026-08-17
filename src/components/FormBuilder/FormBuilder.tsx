@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Button } from "../Button";
 import CheckboxesQuestionBlock from "./components/CheckboxesQuestionBlock";
 import ImageBlock from "./components/ImageBlock";
+import InputTextBlock from "./components/InputTextBlock";
 import RadioButtonsQuestionBlock from "./components/RadioButtonsQuestionBlock";
 import TextBlock from "./components/TextBlock";
 import styles from "./FormBuilder.module.css";
@@ -11,6 +12,7 @@ import { FormItemBlockProps } from "./types";
 export type InputType =
   | "image"
   | "text"
+  | "input-text"
   | "radio-buttons"
   | "checkboxes"
   | "dropdown";
@@ -59,6 +61,11 @@ const FormBuilder = ({
       name: "Text",
       type: "text",
       component: TextBlock,
+    },
+    {
+      name: "Textfält",
+      type: "input-text",
+      component: InputTextBlock,
     },
     {
       name: "Radio buttons",

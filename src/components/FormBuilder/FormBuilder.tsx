@@ -41,9 +41,12 @@ export type FormItem = {
 //   question?: string; placeholder?: string
 // };
 
+// export type ImageFieldValues = { file?: FileList };
+
 // FormattedField =
 // | { type: "radio-buttons"; id: string; values: RadioButtonsFieldValues }
 // | { type: "input-text"; id: string; values: InputTextFieldValues }
+// | { type: "image"; id: string; values: ImageFieldValues }
 
 export type FormattedField = {
   type: InputType;

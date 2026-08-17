@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "../Button";
 import { InputField } from "../InputField";
 import { FormattedField } from "../FormBuilder/FormBuilder";
 import styles from "./FormViewer.module.css";
+import ImagePreview from "./components/ImagePreview";
 
 export type FormViewerValues = {
   answers: Record<string, string | Record<string, boolean>>;
@@ -96,12 +98,15 @@ const FormViewer = ({ fields }: FormViewerProps) => {
                   </li>
                 );
               }
-              case "image":
+              case "image": {
+                // A bit verbose casting here but works as a preview. Should probably add a more stricter typing as noted in FormBuilder.tsx
+                const file = (
+                  values.file as unknown as FileList | undefined
+                )?.[0];
                 return (
-                  <li key={field.id}>
-                    <div className={styles.label}>Bild</div>
-                  </li>
+                  <li key={field.id}>{file && <ImagePreview file={file} />}</li>
                 );
+              }
               default:
                 return null;
             }
